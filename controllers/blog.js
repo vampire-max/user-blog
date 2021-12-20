@@ -1,21 +1,32 @@
 const Blog = require('../model/blog')
+const user = require('../model/user')
 
 exports.add = (req, res) => {
-  new Blog({
-    title: req.body.title,
-    description: req.body.description,
-    author: req.body.author,
-  })
-    .save()
-    .then((newBlog) => {
-      console.log(newBlog)
-      res.json(newBlog)
-      res.json({ message: 'successfully' })
+  const validationField =
+    req.body.title && req.body.description && req.body.author
+
+  if (validationField) {
+    new Blog({
+      title: req.body.title,
+      description: req.body.description,
+      author: req.body.author,
     })
-    .catch((err) => {
-      console.log(err)
-      res.status(500).json({ message: 'something went wrong' })
+      .save()
+      .then((newBlog) => {
+        console.log(newBlog)
+        res.json(newBlog)
+        // res.json({ message: 'successfully' })
+      })
+      .catch((err) => {
+        console.log(err)
+        res.status(500).json({ message: 'something went wrong' })
+      })
+  } else {
+    res.status(500).json({
+      code: 400,
+      message: 'title, description and author is required',
     })
+  }
 }
 exports.update = (req, res) => {
   Blog.findOneAndUpdate({ _id: req.params.id }, { ...req.body }, { new: true })
@@ -38,5 +49,4 @@ exports.get = (req, res) => {
       res.json(rlt)
     })
     .catch((err) => res.json(err))
-  // console.log(req.params)
 }

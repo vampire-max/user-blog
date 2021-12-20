@@ -5,6 +5,6 @@ const auth = require('../middlware/auth')
 router.post('/add-blog', blog.add)
 router.put('/update-blog/:id', blog.update)
 router.delete('/delete-blog/:id', blog.delete)
-router.get('/get-blog/:username/:password', auth, blog.get)
+router.post('/get-blog', auth, blog.get)
 
 module.exports = router

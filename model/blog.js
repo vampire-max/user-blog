@@ -2,10 +2,9 @@ const mongoose = require('mongoose')
 
 const blogModel = mongoose.Schema(
   {
-    title: { type: String, require: true },
-    description: { type: String, require: true },
+    title: { type: String, required: true },
+    description: { type: String, required: true },
     author: { type: mongoose.Schema.Types.ObjectId, ref: 'user' },
-    // user: { ref: 'user' },
   },
   { timestamps: true },
 )
